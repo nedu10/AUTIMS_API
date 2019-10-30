@@ -40,13 +40,16 @@ class Parent extends Model {
       }
       
     caregivers () {
-        return this.hasMany('App/Models/Caregiver')
+        return this.hasMany('App/Models/Caregiver', 'id', 'parent_id')
       }
       patient () {
-        return this.hasOne('App/Models/Patient')
+        return this.hasOne('App/Models/Patient', 'email', 'parent_email')
       }
       patient_therapists () {
-        return this.hasMany('App/Models/PatientTherapist')
+        return this.hasMany('App/Models/PatientTherapist', 'id', 'parent_id')
+      }
+      observation_reports () {
+        return this.hasMany('App/Models/ObservationReport', 'email', 'creator_email')
       }
 }
 

@@ -8,7 +8,7 @@ class Patient extends Model {
         return this.belongsTo('App/Models/Therapist')
       }
       parent () {
-        return this.belongsTo('App/Models/Parent')
+        return this.belongsTo('App/Models/Parent','parent_email', 'email')
       }
       session_reports () {
         return this.hasMany('App/Models/SessionReport')
@@ -21,6 +21,9 @@ class Patient extends Model {
       }
       patient_therapist () {
         return this.hasOne('App/Models/PatientTherapist')
+      }
+      observation_reports () {
+        return this.hasMany('App/Models/ObservationReport')
       }
 }
 

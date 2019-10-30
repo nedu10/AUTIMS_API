@@ -42,6 +42,9 @@ class Caregiver extends Model {
     parent () {
         return this.belongsTo('App/Models/Parent')
       }
+      observation_reports () {
+        return this.hasMany('App/Models/ObservationReport')
+      }
 }
 
 module.exports = Caregiver

@@ -42,22 +42,22 @@ class Therapist extends Model {
     return this.hasMany('App/Models/Token')
   }
   therapist_specializations () {
-    return this.hasMany('App/Models/TherapistSpecialization')
+    return this.hasMany('App/Models/TherapistSpecialization', "id", 'therapist_id')
   }
   patients () {
-    return this.hasMany('App/Models/Patient')
+    return this.hasMany('App/Models/Patient', 'id', 'therapist_id')
   }
   session_reports () {
-    return this.hasMany('App/Models/SessionReport')
+    return this.hasMany('App/Models/SessionReport', 'id', 'therapist_id')
   }
   monthly_reports () {
-    return this.hasMany('App/Models/MonthlyReport')
+    return this.hasMany('App/Models/MonthlyReport', 'id', 'therapist_id')
   }
   activity_list () {
-    return this.hasOne('App/Models/ActivityList')
+    return this.hasOne('App/Models/ActivityList', 'id', 'therapist_id')
   }
   patient_therapists () {
-    return this.hasMany('App/Models/PatientTherapist')
+    return this.hasMany('App/Models/PatientTherapist', 'id', 'therapist_id')
   }
 }
 
