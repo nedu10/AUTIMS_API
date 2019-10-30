@@ -8,12 +8,11 @@ class TherapistSchema extends Schema {
     this.create('therapists', (table) => {
       table.increments()
       table.string('name', 254).notNullable()
-      table.string('email', 254).notNullable().unique()
+      table.string('email', 254).notNullable().unique().notNullable().references('email').inTable('users')
       table.string('phone_no', 254).notNullable()
       table.string('workplace', 1000).notNullable()
       table.string('address', 1000).notNullable()
       table.string('gender', 64).notNullable()
-      table.string('password', 60).notNullable()
       table.string('img_url', 1000)
       table.timestamps()
     })

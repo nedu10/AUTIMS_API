@@ -7,39 +7,9 @@ const Model = use('Model')
 const Hash = use('Hash')
 
 class Therapist extends Model {
-  static boot () {
-    super.boot()
-
-    /**
-     * A hook to hash the Therapist password before saving
-     * it to the database.
-     */
-    this.addHook('beforeSave', async (therapistInstance) => {
-      if (therapistInstance.dirty.password) {
-        therapistInstance.password = await Hash.make(therapistInstance.password)
-      }
-    })
-  }
-
-  //hide password when rendering therapist data
   
-  static get hidden () {
-    return ['password']
-  }
-
-
-  /**
-   * A relationship on tokens is required for auth to
-   * work. Since features like `refreshTokens` or
-   * `rememberToken` will be saved inside the
-   * tokens table.
-   *
-   * @method tokens
-   *
-   * @return {Object}
-   */
-  tokens () {
-    return this.hasMany('App/Models/Token')
+  user () {
+    return this.belongsTo('App/Models/User', 'email', 'email')
   }
   therapist_specializations () {
     return this.hasMany('App/Models/TherapistSpecialization', "id", 'therapist_id')
