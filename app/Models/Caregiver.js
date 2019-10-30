@@ -43,7 +43,7 @@ class Caregiver extends Model {
         return this.belongsTo('App/Models/Parent')
       }
       observation_reports () {
-        return this.hasMany('App/Models/ObservationReport')
+        return this.hasMany('App/Models/ObservationReport', 'email', 'creator_email')
       }
 }
 
