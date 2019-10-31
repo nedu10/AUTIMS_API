@@ -51,7 +51,7 @@ class TherapistController {
     async getSingleTherapist({params, response}) {
         const {user_id} = params
         try {
-            const get_therapist = await User.query().where('id', user_id).with('therapist').first()
+            const get_therapist = await User.query().where('id', user_id).andWhere('user_type', "therapist").with('therapist').first()
             if (!get_therapist) {
                 return response.status(200).json({
                     status: 'Failed',
@@ -76,16 +76,16 @@ class TherapistController {
         
         const {email, password} = request.post()
         try {
-            const checkLoginTherapist = await User.query().where("email", email).first()
+            const checkLoginUser = await User.query().where("email", email).first()
 
-            if (!checkLoginTherapist) {
+            if (!checkLoginUser) {
                 return response.status(400).json({
                     status: 'Failed',
                     message: 'Invalid Credentials',
-                    details: 'Therapist does not exist'
+                    details: 'User does not exist'
                 })
             }
-            const verifyPassword = await Hash.verify(password, checkLoginTherapist.password)
+            const verifyPassword = await Hash.verify(password, checkLoginUser.password)
 
             if (!verifyPassword) {
                 return response.status(400).json({
@@ -94,12 +94,12 @@ class TherapistController {
                 })
             }
 
-            const loginTherapist = await auth.generate(checkLoginTherapist, true)
+            const loginUser = await auth.generate(checkLoginUser, true)
 
             return response.status(202).json({
                 status: 'Success',
                 message: 'Successfully logged in',
-                token: loginTherapist
+                token: loginUser
             })
 
         } catch (error) {

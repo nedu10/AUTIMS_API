@@ -12,6 +12,7 @@ class CaregiverSchema extends Schema {
       table.string('email', 254).notNullable().unique().notNullable().references('email').inTable('users')
       table.string('phone_no', 254).notNullable()
       table.string('relationship', 1000)
+      table.string('confirmation_token', 1000)
       table.string('child_name', 254).notNullable()
       table.string('child_age', 64).notNullable()
       table.string('child_gender', 64).notNullable()

@@ -20,12 +20,15 @@ Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
 
+//Login
+Route.post('/api/login', 'TherapistController.login').validator('TherapistLogin').middleware(['guest'])
+
 //Therapist
 Route.group(() => {
   Route.post('/register', 'TherapistController.register').validator('TherapistRegisteration')
   Route.get('/', 'TherapistController.therapistProfile').middleware(['auth'])
   Route.get('/:user_id', 'TherapistController.getSingleTherapist')
-  Route.post('/login', 'TherapistController.login').validator('TherapistLogin').middleware(['guest'])
+  // Route.post('/login', 'TherapistController.login').validator('TherapistLogin').middleware(['guest'])
   Route.put('/:user_id', 'TherapistController.update').middleware(['auth'])
   // Route.post('/login', 'UserController.login').validator('Login').middleware(['guest'])
   // Route.put('/change-password', 'UserController.changePassword').validator('ChangePassword').middleware(['auth'])
@@ -36,9 +39,9 @@ Route.group(() => {
 //Parent
 Route.group(() => {
   Route.post('/register', 'ParentController.register').validator('ParentRegistration')
+  Route.post('/add_caregiver', 'ParentController.addCaregiver').validator('CaregiverRegistration').middleware(['auth'])
   Route.get('/', 'ParentController.parentProfile').middleware(['auth'])
   Route.get('/:user_id', 'ParentController.getSingleParent')
-  Route.post('/login', 'ParentController.login').validator('TherapistLogin').middleware(['guest'])
   Route.put('/:user_id', 'ParentController.update').middleware(['auth'])
 
 }).prefix('/api/parent')
