@@ -2,6 +2,7 @@
 
 const User = use('App/Models/User')
 const Parent = use('App/Models/Parent')
+const Patient = use('App/Models/Patient')
 const Caregiver = use('App/Models/Caregiver')
 const Hash = use('Hash')
 
@@ -155,7 +156,7 @@ class ParentController {
             const authUser = auth.current.user
             const parent = await User.query().where("id", authUser.id).with('parent').first()
             const parentData = parent.toJSON().parent
-            console.log('ghghghg >> ', parent.toJSON().parent.child_name)
+            // console.log('ghghghg >> ', parent.toJSON().parent.child_name)
 
             const user = new User()
             user.email = email
@@ -196,6 +197,26 @@ class ParentController {
                 error: error
             })
         }  
+    }
+    async viewParentAndCaregiverPatient({response, auth, params}){
+        const {parent_email} = params
+        try {
+
+            const patients = await Patient.query().where("parent_email", parent_email).with('therapist').with('parent').fetch()
+
+            return response.status(200).json({
+                status: 'Success',
+                message: 'successfully fetch patients',
+                data: patients
+            })
+        } catch (error) {
+            console.log(error)
+            return response.status(500).json({
+                status: 'Failed',
+                message: 'Failed Internal server error',
+                error: error
+            })
+        }   
     }
 }
 

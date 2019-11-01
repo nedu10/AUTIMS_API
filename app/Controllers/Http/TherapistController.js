@@ -222,6 +222,46 @@ class TherapistController {
             })
         }   
     }
+    async viewPatient({response, auth, params}){
+        const {patient_id} = params
+        try {
+            const patient = await Patient.query().where("id", patient_id).with('therapist').with('parent').first()
+            return response.status(200).json({
+                status: 'Success',
+                message: 'successfully fetch patient',
+                data: patient
+            })
+        } catch (error) {
+            console.log(error)
+            return response.status(500).json({
+                status: 'Failed',
+                message: 'Failed Internal server error',
+                error: error
+            })
+        }   
+    }
+    async viewTherapistPatient({response, auth}){
+        try {
+            const authUser = auth.current.user
+            const therapist = await User.query().where("id", authUser.id).with('therapist').first()
+            const therapistData = therapist.toJSON().therapist
+
+            const patients = await Patient.query().where("therapist_id", therapistData.id).with('therapist').with('parent').fetch()
+
+            return response.status(200).json({
+                status: 'Success',
+                message: 'successfully fetch patients',
+                data: patients
+            })
+        } catch (error) {
+            console.log(error)
+            return response.status(500).json({
+                status: 'Failed',
+                message: 'Failed Internal server error',
+                error: error
+            })
+        }   
+    }
 }
 
 module.exports = TherapistController

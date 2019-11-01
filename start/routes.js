@@ -22,11 +22,13 @@ Route.get('/', () => {
 
 //Login
 Route.post('/api/login', 'TherapistController.login').validator('TherapistLogin').middleware(['guest'])
+Route.get('/api/view_patient/:patient_id', 'TherapistController.viewPatient').middleware(['auth'])
 
 //Therapist
 Route.group(() => {
   Route.post('/register', 'TherapistController.register').validator('TherapistRegisteration')
   Route.post('/add_patient', 'TherapistController.addPatient').validator('PatientRegistration').middleware(['auth', 'isTherapist'])
+  Route.get('/view_patients', 'TherapistController.viewTherapistPatient').middleware(['auth', 'isTherapist'])
   Route.get('/', 'TherapistController.therapistProfile').middleware(['auth', 'isTherapist'])
   Route.get('/:user_id', 'TherapistController.getSingleTherapist')
   // Route.post('/login', 'TherapistController.login').validator('TherapistLogin').middleware(['guest'])
@@ -41,6 +43,7 @@ Route.group(() => {
 Route.group(() => {
   Route.post('/register', 'ParentController.register').validator('ParentRegistration')
   Route.post('/add_caregiver', 'ParentController.addCaregiver').validator('CaregiverRegistration').middleware(['auth', 'isParent'])
+  Route.get('/view_patients/:parent_email', 'ParentController.viewParentAndCaregiverPatient').middleware(['auth'])
   Route.get('/', 'ParentController.parentProfile').middleware(['auth', 'isParent'])
   Route.get('/:user_id', 'ParentController.getSingleParent')
   Route.put('/:user_id', 'ParentController.update').middleware(['auth', 'isParent'])
