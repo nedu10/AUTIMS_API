@@ -2,6 +2,7 @@
 
 const Therapist = use('App/Models/Therapist')
 const User = use('App/Models/User')
+const Patient = use('App/Models/Patient')
 const Hash = use('Hash')
 
 class TherapistController {
@@ -162,6 +163,55 @@ class TherapistController {
                 status: 'Success',
                 message: 'Successfully Updated user',
                 data: updateTherapist
+            })
+        } catch (error) {
+            console.log(error)
+            return response.status(500).json({
+                status: 'Failed',
+                message: 'Failed Internal server error',
+                error: error
+            })
+        }   
+    }
+    async addPatient({request, response, auth}) {
+        const {name, parent_email, phone_no,  age, gender, diagnosis, summary, parent_phone, parent_name, relationship, creation_time} = request.post()
+
+
+        try {
+
+            const authUser = auth.current.user
+            const therapist = await User.query().where("id", authUser.id).with('therapist').first()
+            const therapistData = therapist.toJSON().therapist
+
+            const checkParent = await User.query().where("email", parent_email).first()
+
+            if (!checkParent) {
+                return response.status(404).json({
+                    status: 'Failed!',
+                    message: 'Parent does not exist'
+                })
+            }
+            
+            const patient = new Patient()
+            patient.name = name
+            patient.parent_email = parent_email
+            patient.phone_no = phone_no
+            patient.therapist_id = therapistData.id
+            patient.age = age
+            patient.gender = gender
+            patient.diagnosis = diagnosis
+            patient.summary = summary
+            patient.parent_phone = parent_phone
+            patient.parent_name = parent_name
+            patient.relationship = relationship
+            patient.creation_time = creation_time
+            
+            const savePatient = await patient.save()
+
+            return response.status(201).json({
+                status: 'Success',
+                message: 'Patient is successfully created',
+                data: savePatient
             })
         } catch (error) {
             console.log(error)

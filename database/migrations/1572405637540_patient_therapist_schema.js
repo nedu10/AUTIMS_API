@@ -10,7 +10,6 @@ class PatientTherapistSchema extends Schema {
       table.integer('patient_id').notNullable().unsigned().references('id').inTable('patients')
       table.integer('therapist_id').notNullable().unsigned().references('id').inTable('therapists')
       table.integer('parent_id').notNullable().unsigned().references('id').inTable('parents')
-      table.boolean('parent_verified').defaultTo(false)
       table.timestamps()
     })
   }

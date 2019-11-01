@@ -3,9 +3,9 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const Therapist = use('App/Models/Therapist')
+const User = use('App/Models/User')
 
-class TherapistAuth {
+class IsCaregiver {
   /**
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -14,10 +14,11 @@ class TherapistAuth {
   async handle ({ response, auth }, next) {
     // call next to advance the request
     const authUser = await auth.getUser()
+    // console.log('im checking my id >> ', authUser.id)
 
     try {
-      const checkAuthUserType = await UserType.query().where('id', authUser.user_type_id).first()
-      if (checkAuthUserType.title == 'kasuwa_admin') {
+      const checkAuthUserType = await User.query().where('id', authUser.id).first()
+      if (checkAuthUserType.user_type == 'caregiver') {
         return await next()
       } else {
         return response.status(401).json({
@@ -36,4 +37,4 @@ class TherapistAuth {
   }
 }
 
-module.exports = TherapistAuth
+module.exports = IsCaregiver
