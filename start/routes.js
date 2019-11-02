@@ -29,6 +29,8 @@ Route.group(() => {
   Route.post('/register', 'TherapistController.register').validator('TherapistRegisteration')
   Route.post('/add_patient', 'TherapistController.addPatient').validator('PatientRegistration').middleware(['auth', 'isTherapist'])
   Route.get('/view_patients', 'TherapistController.viewTherapistPatient').middleware(['auth', 'isTherapist'])
+  Route.put('/edit_patient/:patient_id', 'TherapistController.updatePatient').middleware(['auth', 'isTherapist'])
+  Route.delete('/delete_patient/:patient_id', 'TherapistController.deletePatient').middleware(['auth', 'isTherapist'])
   Route.get('/', 'TherapistController.therapistProfile').middleware(['auth', 'isTherapist'])
   Route.get('/:user_id', 'TherapistController.getSingleTherapist')
   // Route.post('/login', 'TherapistController.login').validator('TherapistLogin').middleware(['guest'])
@@ -49,3 +51,23 @@ Route.group(() => {
   Route.put('/:user_id', 'ParentController.update').middleware(['auth', 'isParent'])
 
 }).prefix('/api/parent')
+
+//Session report
+Route.group(() => {
+  Route.post('/:patient_id', 'SessionReportController.create').validator('SessionReportCreation').middleware(['auth', 'isTherapist'])
+  Route.put('/:session_report_id', 'SessionReportController.edit').middleware(['auth', 'isTherapist'])
+  Route.delete('/:session_report_id', 'SessionReportController.delete').middleware(['auth', 'isTherapist'])
+  Route.get('/:patient_id', 'SessionReportController.parentSessionReport').middleware(['auth'])
+  Route.get('/single_report/:session_report_id', 'SessionReportController.singleSessionReport').middleware(['auth'])
+
+}).prefix('/api/session_report')
+
+//Monthly report
+Route.group(() => {
+  Route.post('/:patient_id', 'MonthlyReportController.create').middleware(['auth', 'isTherapist'])
+  Route.put('/:monthly_report_id', 'MonthlyReportController.edit').middleware(['auth', 'isTherapist'])
+  Route.delete('/:monthly_report_id', 'MonthlyReportController.delete').middleware(['auth', 'isTherapist'])
+  Route.get('/:patient_id', 'MonthlyReportController.parentMonthlyReport').middleware(['auth'])
+  Route.get('/single_report/:monthly_report_id', 'MonthlyReportController.singleMonthlyReport').middleware(['auth'])
+
+}).prefix('/api/monthly_report')
