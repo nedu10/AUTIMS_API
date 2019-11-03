@@ -41,7 +41,7 @@ class SessionReportController {
             })
         }   
     }
-    async parentSessionReport({response, params}) {
+    async patientSessionReport({response, params}) {
         const {patient_id} = params
         try {
             const parent_session_report = await SessionReport.query().where("patient_id", patient_id).with('patient').fetch()

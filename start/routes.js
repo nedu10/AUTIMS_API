@@ -57,7 +57,7 @@ Route.group(() => {
   Route.post('/:patient_id', 'SessionReportController.create').validator('SessionReportCreation').middleware(['auth', 'isTherapist'])
   Route.put('/:session_report_id', 'SessionReportController.edit').middleware(['auth', 'isTherapist'])
   Route.delete('/:session_report_id', 'SessionReportController.delete').middleware(['auth', 'isTherapist'])
-  Route.get('/:patient_id', 'SessionReportController.parentSessionReport').middleware(['auth'])
+  Route.get('/:patient_id', 'SessionReportController.patientSessionReport').middleware(['auth'])
   Route.get('/single_report/:session_report_id', 'SessionReportController.singleSessionReport').middleware(['auth'])
 
 }).prefix('/api/session_report')
@@ -67,7 +67,18 @@ Route.group(() => {
   Route.post('/:patient_id', 'MonthlyReportController.create').middleware(['auth', 'isTherapist'])
   Route.put('/:monthly_report_id', 'MonthlyReportController.edit').middleware(['auth', 'isTherapist'])
   Route.delete('/:monthly_report_id', 'MonthlyReportController.delete').middleware(['auth', 'isTherapist'])
-  Route.get('/:patient_id', 'MonthlyReportController.parentMonthlyReport').middleware(['auth'])
+  Route.get('/:patient_id', 'MonthlyReportController.patientMonthlyReport').middleware(['auth'])
   Route.get('/single_report/:monthly_report_id', 'MonthlyReportController.singleMonthlyReport').middleware(['auth'])
 
 }).prefix('/api/monthly_report')
+
+//Activity report
+Route.group(() => {
+  Route.post('/morning_activity/:patient_id', 'ActivityReportController.createMorningActivity').validator('ActivityListCreation').middleware(['auth', 'isTherapist'])
+  Route.delete('/morning_activity/:morning_activity_id', 'ActivityReportController.deleteMorningActivity').middleware(['auth', 'isTherapist'])
+  Route.post('/afternoon_activity/:patient_id', 'ActivityReportController.createAfternoonActivity').validator('ActivityListCreation').middleware(['auth', 'isTherapist'])
+  Route.delete('/afternoon_activity/:afternoon_activity_id', 'ActivityReportController.deleteAfternoonActivity').middleware(['auth', 'isTherapist'])
+  Route.post('/evening_activity/:patient_id', 'ActivityReportController.createEveningActivity').validator('ActivityListCreation').middleware(['auth', 'isTherapist'])
+  Route.delete('/evening_activity/:evening_activity_id', 'ActivityReportController.deleteEveningActivity').middleware(['auth', 'isTherapist'])
+
+}).prefix('/api/activity_list')

@@ -53,7 +53,7 @@ class MonthlyReportController {
             })
         }   
     }
-    async parentMonthlyReport({response, params}) {
+    async patientMonthlyReport({response, params}) {
         const {patient_id} = params
         try {
             const parent_monthly_report = await MonthlyReport.query().where("patient_id", patient_id).with('patient').fetch()

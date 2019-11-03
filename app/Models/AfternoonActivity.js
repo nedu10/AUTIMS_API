@@ -3,8 +3,8 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
-class ActivityList extends Model {
-    therapist () {
+class AfternoonActivity extends Model {
+     therapist () {
         return this.belongsTo('App/Models/Therapist')
       }
       patient () {
@@ -12,4 +12,4 @@ class ActivityList extends Model {
       }
 }
 
-module.exports = ActivityList
+module.exports = AfternoonActivity
