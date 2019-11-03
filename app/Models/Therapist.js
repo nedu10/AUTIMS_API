@@ -23,13 +23,13 @@ class Therapist extends Model {
   monthly_reports () {
     return this.hasMany('App/Models/MonthlyReport', 'id', 'therapist_id')
   }
-  morning_activity () {
+  morning_activities () {
     return this.hasMany('App/Models/MorningActivity')
   }
-  afternoon_activity () {
+  afternoon_activities () {
     return this.hasMany('App/Models/AfternoonActivity')
   }
-  evening_activity () {
+  evening_activities () {
     return this.hasMany('App/Models/EveningActivity')
   }
   patient_therapists () {

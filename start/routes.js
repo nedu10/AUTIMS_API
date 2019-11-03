@@ -33,9 +33,7 @@ Route.group(() => {
   Route.delete('/delete_patient/:patient_id', 'TherapistController.deletePatient').middleware(['auth', 'isTherapist'])
   Route.get('/', 'TherapistController.therapistProfile').middleware(['auth', 'isTherapist'])
   Route.get('/:user_id', 'TherapistController.getSingleTherapist')
-  // Route.post('/login', 'TherapistController.login').validator('TherapistLogin').middleware(['guest'])
   Route.put('/:user_id', 'TherapistController.update').middleware(['auth', 'isTherapist'])
-  // Route.post('/login', 'UserController.login').validator('Login').middleware(['guest'])
   // Route.put('/change-password', 'UserController.changePassword').validator('ChangePassword').middleware(['auth'])
   // Route.put('/forget-password', 'UserController.forgetPassword').validator('ForgetPassword').middleware(['guest'])
   // Route.put('/reset-password', 'UserController.resetPassword')
@@ -82,3 +80,13 @@ Route.group(() => {
   Route.delete('/evening_activity/:evening_activity_id', 'ActivityReportController.deleteEveningActivity').middleware(['auth', 'isTherapist'])
 
 }).prefix('/api/activity_list')
+
+//Monthly report
+Route.group(() => {
+  Route.post('/:patient_id', 'ObservationReportController.create').middleware(['auth', 'isParentOrCaregiver'])
+  Route.put('/:observation_report_id', 'ObservationReportController.edit').middleware(['auth', 'isParentOrCaregiver'])
+  Route.delete('/:observation_report_id', 'ObservationReportController.delete').middleware(['auth', 'isParentOrCaregiver'])
+  Route.get('/:patient_id', 'ObservationReportController.patientObservationReport').middleware(['auth'])
+  Route.get('/single_report/:observation_report_id', 'ObservationReportController.singleObservationReport').middleware(['auth'])
+
+}).prefix('/api/observation_report')

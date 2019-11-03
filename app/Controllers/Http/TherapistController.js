@@ -9,7 +9,7 @@ class TherapistController {
     async register({request, response}) {
         const {name, email, phone_no, workplace, address, gender, password} = request.post()
 
-        console.log('im here >> ', email)
+        // console.log('im here >> ', email)
 
         try {
             const user = new User()
@@ -232,6 +232,10 @@ class TherapistController {
                                 .with('parent')
                                 .with('monthly_reports')
                                 .with('session_reports')
+                                .with('morning_activities')
+                                .with('afternoon_activities')
+                                .with('evening_activities')
+                                .with('observation_reports')
                                 .first()
                                 
             return response.status(200).json({

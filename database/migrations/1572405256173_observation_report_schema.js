@@ -8,7 +8,7 @@ class ObservationReportSchema extends Schema {
     this.create('observation_reports', (table) => {
       table.increments()
       table.integer('patient_id').notNullable().unsigned().references('id').inTable('patients')
-      table.string('creator_email').notNullable()
+      table.integer('creator_id').notNullable()
       table.string('date', 255).defaultTo(Date.now())
       table.string('title').notNullable()
       table.string('summary').notNullable()
