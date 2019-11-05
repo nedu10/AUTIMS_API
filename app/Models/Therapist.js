@@ -12,7 +12,7 @@ class Therapist extends Model {
     return this.belongsTo('App/Models/User', 'email', 'email')
   }
   therapist_specializations () {
-    return this.hasMany('App/Models/TherapistSpecialization', "id", 'therapist_id')
+    return this.hasMany('App/Models/TherapistSpecialization', "email", 'therapist_email')
   }
   patients () {
     return this.hasMany('App/Models/Patient', 'id', 'therapist_id')
