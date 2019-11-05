@@ -16,8 +16,14 @@ class Patient extends Model {
       monthly_reports () {
         return this.hasMany('App/Models/MonthlyReport')
       }
-      activity_list () {
-        return this.hasOne('App/Models/ActivityList')
+      morning_activities () {
+        return this.hasMany('App/Models/MorningActivity')
+      }
+      afternoon_activities () {
+        return this.hasMany('App/Models/AfternoonActivity')
+      }
+      evening_activities () {
+        return this.hasMany('App/Models/EveningActivity')
       }
       patient_therapist () {
         return this.hasOne('App/Models/PatientTherapist')

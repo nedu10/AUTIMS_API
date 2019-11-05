@@ -39,7 +39,8 @@ const namedMiddleware = {
   guest: 'Adonis/Middleware/AllowGuestOnly',
   isParent: 'App/Middleware/isParent',
   isCaregiver: 'App/Middleware/isCaregiver',
-  isTherapist: 'App/Middleware/isTherapist'
+  isTherapist: 'App/Middleware/isTherapist',
+  isParentOrCaregiver: 'App/Middleware/isParentOrCaregiver'
 }
 
 /*

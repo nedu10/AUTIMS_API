@@ -9,7 +9,7 @@ class TherapistController {
     async register({request, response}) {
         const {name, email, phone_no, workplace, address, gender, password} = request.post()
 
-        console.log('im here >> ', email)
+        // console.log('im here >> ', email)
 
         try {
             const user = new User()
@@ -225,7 +225,19 @@ class TherapistController {
     async viewPatient({response, auth, params}){
         const {patient_id} = params
         try {
-            const patient = await Patient.query().where("id", patient_id).with('therapist').with('parent').first()
+            const patient = await Patient.query()
+                                .where("id", patient_id)
+                                .andWhere('is_deleted', false)
+                                .with('therapist')
+                                .with('parent')
+                                .with('monthly_reports')
+                                .with('session_reports')
+                                .with('morning_activities')
+                                .with('afternoon_activities')
+                                .with('evening_activities')
+                                .with('observation_reports')
+                                .first()
+                                
             return response.status(200).json({
                 status: 'Success',
                 message: 'successfully fetch patient',
@@ -246,7 +258,7 @@ class TherapistController {
             const therapist = await User.query().where("id", authUser.id).with('therapist').first()
             const therapistData = therapist.toJSON().therapist
 
-            const patients = await Patient.query().where("therapist_id", therapistData.id).with('therapist').with('parent').fetch()
+            const patients = await Patient.query().where("therapist_id", therapistData.id).andWhere('is_deleted', false).with('therapist').with('parent').fetch()
 
             return response.status(200).json({
                 status: 'Success',
@@ -261,6 +273,109 @@ class TherapistController {
                 error: error
             })
         }   
+    }
+    //To be continued
+    async updatePatient({request, params, response, auth}) {
+        const {patient_id} = params
+        const {name, parent_email, phone_no,  age, gender, diagnosis, summary, parent_phone, parent_name, relationship, creation_time} = request.post()
+
+        try {
+
+            const authUser = auth.current.user
+            const therapist = await User.query().where("id", authUser.id).with('therapist').first()
+            const therapistData = therapist.toJSON().therapist
+
+            const patient = await Patient.query()
+                                .where("id", patient_id)
+                                .andWhere('is_deleted', false)
+                                .andWhere('therapist_id', therapistData.id)
+                                .first()
+            
+            // if (email) {
+            //     const checkEmail = await User.findBy({email: email})
+            //     if (user.email != email && checkEmail) {
+            //         return response.status(401).json({
+            //             status: 'Failed',
+            //             message: 'Email aleady exist'
+            //         })
+            //     }
+            // }
+
+            if (!patient) {
+                return response.status(404).json({
+                    status: 'Failed',
+                    message: 'Patient does not exist'
+                })
+            }
+           
+
+            patient.name = (name) ? name : patient.name
+            patient.phone_no = (phone_no) ? phone_no : patient.phone_no
+            patient.parent_email = (parent_email) ? parent_email : patient.parent_email
+            patient.gender = (gender) ? gender : patient.gender
+            patient.age = (age) ? age : patient.age,
+            patient.diagnosis = (diagnosis) ? diagnosis : patient.diagnosis
+            patient.summary = (summary) ? summary : patient.summary
+            patient.parent_phone = (parent_phone) ? parent_phone : patient.parent_phone
+            patient.parent_name = (parent_name) ? parent_name : patient.parent_name,
+            patient.relationship = (relationship) ? relationship : patient.relationship
+            patient.creation_time = (creation_time) ? creation_time : patient.creation_time
+            
+            const updatePatient = await patient.save()
+
+            return response.status(202).json({
+                status: 'Success',
+                message: 'Successfully Updated user',
+                data: updatePatient
+            })
+        } catch (error) {
+            console.log(error)
+            return response.status(500).json({
+                status: 'Failed',
+                message: 'Failed Internal server error',
+                error: error
+            })
+        }   
+    }
+    async deletePatient({response, params, auth}) {
+        const {patient_id} = params
+        try {
+
+            const authUser = auth.current.user
+            const therapist = await User.query().where("id", authUser.id).with('therapist').first()
+            const therapistData = therapist.toJSON().therapist
+
+            const patient = await Patient.query()
+                                .where("id", patient_id)
+                                .andWhere('is_deleted', false)
+                                .andWhere('therapist_id', therapistData.id)
+                                .first()
+
+            if (!patient) {
+                return response.status(404).json({
+                    status: 'Failed',
+                    message: 'Patient does not exist'
+                })
+            }
+
+            patient.is_deleted = true
+
+            const deletePatient = await patient.save()
+
+            return response.status(202).json({
+                status: 'Success',
+                message: 'Successfully Deleted user',
+                data: deletePatient
+            })
+            
+        } catch (error) {
+            console.log(error)
+            return response.status(500).json({
+                status: 'Failed',
+                message: 'Failed Internal server error',
+                error: error
+            })
+        }  
     }
 }
 

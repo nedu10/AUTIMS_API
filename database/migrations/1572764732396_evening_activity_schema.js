@@ -3,21 +3,20 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class ActivityListSchema extends Schema {
+class EveningActivitySchema extends Schema {
   up () {
-    this.create('activity_lists', (table) => {
+    this.create('evening_activities', (table) => {
       table.increments()
       table.integer('patient_id').notNullable().unsigned().references('id').inTable('patients')
       table.integer('therapist_id').notNullable().unsigned().references('id').inTable('therapists')
-      table.string('activity_period', 254).notNullable()
       table.string('activity_title').notNullable()
       table.timestamps()
     })
   }
 
   down () {
-    this.drop('activity_lists')
+    this.drop('evening_activities')
   }
 }
 
-module.exports = ActivityListSchema
+module.exports = EveningActivitySchema
