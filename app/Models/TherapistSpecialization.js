@@ -5,7 +5,7 @@ const Model = use('Model')
 
 class TherapistSpecialization extends Model {
     therapist () {
-        return this.belongsTo('App/Models/Therapist')
+        return this.belongsTo('App/Models/Therapist', 'therapist_email', 'email')
       }
 }
 

@@ -3,11 +3,15 @@
 const Therapist = use('App/Models/Therapist')
 const User = use('App/Models/User')
 const Patient = use('App/Models/Patient')
+const TherapistSpecialization = use('App/Models/TherapistSpecialization')
 const Hash = use('Hash')
 
 class TherapistController {
     async register({request, response}) {
-        const {name, email, phone_no, workplace, address, gender, password} = request.post()
+        const {name, email, phone_no, workplace, address, gender, password, specialization} = request.post()
+        // console.log('i am getting specialization >> ', typeof specialization)
+        // console.log('i am getting specialization >> ', specialization)
+        const js_specialization = specialization
 
         // console.log('im here >> ', email)
 
@@ -34,6 +38,16 @@ class TherapistController {
             therapist.address = address
             
             const saveTherapist = await therapist.save()
+
+            if (js_specialization.length > 0) {
+                for (let i = 0; i < js_specialization.length; i++) {
+                    const therapist_specialization = new TherapistSpecialization()
+                    therapist_specialization.specialization_title = js_specialization[i]
+                    therapist_specialization.therapist_email = email
+                    await therapist_specialization.save()
+                }
+                
+            }
 
             return response.status(201).json({
                 status: 'Success',

@@ -7,7 +7,7 @@ class TherapistSpecializationSchema extends Schema {
   up () {
     this.create('therapist_specializations', (table) => {
       table.increments()
-      table.integer('therapist_id').notNullable().unsigned().references('id').inTable('therapists')
+      table.string('therapist_email').notNullable().references('email').inTable('therapists')
       table.string('specialization_title', 1000).notNullable()
       table.timestamps()
     })
