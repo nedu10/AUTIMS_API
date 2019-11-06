@@ -378,10 +378,42 @@ class TherapistController {
 
             return response.status(202).json({
                 status: 'Success',
-                message: 'Successfully Deleted user',
+                message: 'Successfully Deleted patient',
                 data: deletePatient
             })
             
+        } catch (error) {
+            console.log(error)
+            return response.status(500).json({
+                status: 'Failed',
+                message: 'Failed Internal server error',
+                error: error
+            })
+        }  
+    }
+    async removeSpecialization({response, params,auth}){
+        const {therapist_specialization_id} = params
+        try {
+            const authUser = auth.current.user
+            const therapist_specialization = await TherapistSpecialization.query()
+                                .where("id", therapist_specialization_id)
+                                .andWhere('therapist_email', authUser.email)
+                                .first()
+
+            if (!therapist_specialization) {
+                return response.status(404).json({
+                    status: 'Failed',
+                    message: 'Specialization does not exist'
+                })
+            }
+
+            therapist_specialization.delete()
+
+            return response.status(200).json({
+                status: 'Success',
+                message: 'Successfully Deleted Specialization'
+            })
+
         } catch (error) {
             console.log(error)
             return response.status(500).json({
