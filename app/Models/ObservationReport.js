@@ -11,7 +11,7 @@ class ObservationReport extends Model {
         return this.belongsTo('App/Models/Parent', 'creator_email', 'email')
       }
       caregiver () {
-        return this.belongsTo('App/Models/caregiver', 'creator_email', 'email')
+        return this.belongsTo('App/Models/Caregiver', 'creator_email', 'email') // changed caregiver to Caregiver
       }
 }
 

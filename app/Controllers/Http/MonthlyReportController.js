@@ -41,7 +41,7 @@ class MonthlyReportController {
 
             return response.status(201).json({
                 status: 'Success',
-                message: 'monthly report is successfully created',
+                message: 'Successfully created',
                 data: saveMonthlyReport
             })
         } catch (error) {
@@ -139,7 +139,7 @@ class MonthlyReportController {
 
             return response.status(201).json({
                 status: 'Success',
-                message: 'Monthly report is successfully updated',
+                message: 'Successfully updated',
                 data: saveMonthlyReport
             })
         } catch (error) {
@@ -173,7 +173,7 @@ class MonthlyReportController {
 
             return response.status(200).json({
                 status: 'Success',
-                message: 'monthly report is successfully deleted',
+                message: 'Successfully deleted',
                 data: monthly_report
             })
         } catch (error) {

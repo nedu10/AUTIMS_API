@@ -29,7 +29,7 @@ class SessionReportController {
 
             return response.status(201).json({
                 status: 'Success',
-                message: 'session report is successfully created',
+                message: 'Successfully created',
                 data: saveSessionReport
             })
         } catch (error) {
@@ -114,7 +114,7 @@ class SessionReportController {
 
             return response.status(201).json({
                 status: 'Success',
-                message: 'session report is successfully updated',
+                message: 'Successfully updated',
                 data: saveSessionReport
             })
         } catch (error) {
@@ -148,7 +148,7 @@ class SessionReportController {
 
             return response.status(200).json({
                 status: 'Success',
-                message: 'session report is successfully deleted',
+                message: 'Successfully deleted',
                 data: session_report
             })
         } catch (error) {

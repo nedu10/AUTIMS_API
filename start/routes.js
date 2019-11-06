@@ -38,7 +38,7 @@ Route.group(() => {
   // Route.put('/forget-password', 'UserController.forgetPassword').validator('ForgetPassword').middleware(['guest'])
   // Route.put('/reset-password', 'UserController.resetPassword')
 }).prefix('/api/therapist')
-
+ 
 //Parent
 Route.group(() => {
   Route.post('/register', 'ParentController.register').validator('ParentRegistration')
@@ -81,7 +81,7 @@ Route.group(() => {
 
 }).prefix('/api/activity_list')
 
-//Monthly report
+//Observation report
 Route.group(() => {
   Route.post('/:patient_id', 'ObservationReportController.create').middleware(['auth', 'isParentOrCaregiver'])
   Route.put('/:observation_report_id', 'ObservationReportController.edit').middleware(['auth', 'isParentOrCaregiver'])

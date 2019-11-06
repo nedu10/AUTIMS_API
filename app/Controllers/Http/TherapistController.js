@@ -51,7 +51,7 @@ class TherapistController {
 
             return response.status(201).json({
                 status: 'Success',
-                message: 'Therapist is successfully registered',
+                message: 'Successfully registered',
                 data: saveTherapist
             })
         } catch (error) {
@@ -175,7 +175,7 @@ class TherapistController {
 
             return response.status(202).json({
                 status: 'Success',
-                message: 'Successfully Updated user',
+                message: 'Successfully Updated profile',
                 data: updateTherapist
             })
         } catch (error) {
@@ -224,7 +224,7 @@ class TherapistController {
 
             return response.status(201).json({
                 status: 'Success',
-                message: 'Patient is successfully created',
+                message: 'Successfully created patient',
                 data: savePatient
             })
         } catch (error) {
@@ -339,7 +339,7 @@ class TherapistController {
 
             return response.status(202).json({
                 status: 'Success',
-                message: 'Successfully Updated user',
+                message: 'Successfully Updated',
                 data: updatePatient
             })
         } catch (error) {
@@ -378,7 +378,7 @@ class TherapistController {
 
             return response.status(202).json({
                 status: 'Success',
-                message: 'Successfully Deleted user',
+                message: 'Successfully Deleted Patient',
                 data: deletePatient
             })
             

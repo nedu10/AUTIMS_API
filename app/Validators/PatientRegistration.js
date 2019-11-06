@@ -6,7 +6,7 @@ class PatientRegistration {
       // validation rules
       name: 'required',
       age: 'required',
-      diagnosis: 'required',
+      diagnosis: 'required', //not compulsory
       summary: 'required',
       parent_name: 'required',
       parent_phone: 'required',

@@ -41,7 +41,7 @@ class ObservationReportController {
 
             return response.status(201).json({
                 status: 'Success',
-                message: 'observation report is successfully created',
+                message: 'Successfully created',
                 data: saveObservationReport
             })
         } catch (error) {
@@ -129,7 +129,7 @@ class ObservationReportController {
 
             return response.status(202).json({
                 status: 'Success',
-                message: 'Observation report is successfully updated',
+                message: 'Successfully updated',
                 data: saveObservationReport
             })
         } catch (error) {
@@ -168,7 +168,7 @@ class ObservationReportController {
 
             return response.status(200).json({
                 status: 'Success',
-                message: 'Observation report is successfully deleted',
+                message: 'Successfully deleted',
                 data: observation_report
             })
         } catch (error) {

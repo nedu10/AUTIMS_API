@@ -40,7 +40,7 @@ class ParentController {
 
             return response.status(201).json({
                 status: 'Success',
-                message: 'Parent is successfully registered',
+                message: 'Registration Successful',
                 data: saveParent
             })
         } catch (error) {
@@ -64,7 +64,7 @@ class ParentController {
             }
             return response.status(200).json({
                 status: 'Success',
-                message: 'Successfully fetch parent',
+                message: 'Successfully fetched parent',
                 data: get_parent
             })
         } catch (error) {
@@ -82,7 +82,7 @@ class ParentController {
             const parent = await User.query().where("id", authUser.id).with('parent').first()
             return response.status(200).json({
                 status: 'Success',
-                message: 'Successfully fetch profile',
+                message: 'Successfully fetched profile',
                 data: parent
             })
         } catch (error) {
@@ -206,7 +206,7 @@ class ParentController {
 
             return response.status(200).json({
                 status: 'Success',
-                message: 'successfully fetch patients',
+                message: 'Successfully fetched patients',
                 data: patients
             })
         } catch (error) {
