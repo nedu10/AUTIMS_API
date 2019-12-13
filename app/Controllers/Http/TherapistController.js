@@ -5,6 +5,7 @@ const User = use('App/Models/User')
 const Patient = use('App/Models/Patient')
 const TherapistSpecialization = use('App/Models/TherapistSpecialization')
 const Hash = use('Hash')
+const Mail = use('Mail')
 
 class TherapistController {
     async register({request, response}) {
@@ -48,6 +49,15 @@ class TherapistController {
                 }
                 
             }
+
+            //send creation email to user to verify that he/she has created an account
+            await Mail.send('emails.registration_email', therapist.toJSON(), message => {
+                message
+                  .to(therapist.email)
+                  .from('autims@admin.com')
+                  .subject('Thank you for creating an account with autims')
+              })
+
 
             return response.status(201).json({
                 status: 'Success',

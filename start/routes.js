@@ -23,6 +23,8 @@ Route.get('/', () => {
 //Login
 Route.post('/api/login', 'TherapistController.login').validator('TherapistLogin').middleware(['guest'])
 Route.get('/api/view_patient/:patient_id', 'TherapistController.viewPatient').middleware(['auth'])
+Route.post('api/register/activate/:confirmation_key', 'CaregiverController.activateCaregiver')
+
 
 //Therapist
 Route.group(() => {

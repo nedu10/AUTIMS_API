@@ -5,6 +5,12 @@ const Parent = use('App/Models/Parent')
 const Patient = use('App/Models/Patient')
 const Caregiver = use('App/Models/Caregiver')
 const Hash = use('Hash')
+const Mail = use('Mail')
+
+//external package
+var randomstring = require("randomstring");
+
+
 
 class ParentController {
     async register({request, response}) {
@@ -37,6 +43,14 @@ class ParentController {
             parent.child_gender = child_gender
             
             const saveParent = await parent.save()
+
+            //send creation email to user to verify that he/she has created an account
+            await Mail.send('emails.registration_email', parent.toJSON(), message => {
+                message
+                  .to(parent.email)
+                  .from('autims@admin.com')
+                  .subject('Thank you for creating an account with autims')
+              })
 
             return response.status(201).json({
                 status: 'Success',
@@ -149,7 +163,14 @@ class ParentController {
 
         const {name, email, phone_no, relationship} = request.post()
 
-        const confirmation_token = 'qwertyuiop'
+        
+        const generate_random_string = randomstring.generate({
+            length: 40,
+            charset: 'alphabetic'
+          });
+
+
+        const confirmation_token = generate_random_string
         const password = 'AUTIMCAREGIVER'
 
         try {
@@ -183,6 +204,15 @@ class ParentController {
             caregiver.child_gender = parentData.child_gender
             
             const saveCaregiver = await caregiver.save()
+
+
+            ///caregiver set password
+            await Mail.send('emails.caregiver_set_password', caregiver.toJSON(), message => {
+                message
+                  .to(caregiver.email)
+                  .from('autims@admin.com')
+                  .subject('Please verify your account.')
+              })
 
             return response.status(201).json({
                 status: 'Success',
