@@ -5,6 +5,7 @@ const User = use('App/Models/User')
 const Patient = use('App/Models/Patient')
 const TherapistSpecialization = use('App/Models/TherapistSpecialization')
 const Hash = use('Hash')
+const Mail = use('Mail')
 
 class TherapistController {
     async register({request, response}) {
@@ -49,11 +50,9 @@ class TherapistController {
                 
             }
 
-<<<<<<< Updated upstream
             return response.status(201).json({
                 status: 'Success',
                 message: 'Successfully registered',
-=======
             //send creation email to user to verify that he/she has created an account
             await Mail.send('emails.registration_email', therapist.toJSON(), message => {
                 message
@@ -66,7 +65,6 @@ class TherapistController {
             return response.status(201).json({
                 status: 'Success',
                 message: 'Registration Successful. Kindly activate your account.',
->>>>>>> Stashed changes
                 data: saveTherapist
             })
         } catch (error) {
@@ -190,11 +188,7 @@ class TherapistController {
 
             return response.status(202).json({
                 status: 'Success',
-<<<<<<< Updated upstream
-                message: 'Successfully Updated profile',
-=======
                 message: 'Successfully Updated ',
->>>>>>> Stashed changes
                 data: updateTherapist
             })
         } catch (error) {
@@ -243,11 +237,7 @@ class TherapistController {
 
             return response.status(201).json({
                 status: 'Success',
-<<<<<<< Updated upstream
-                message: 'Successfully created patient',
-=======
                 message: 'Successfully added new patient',
->>>>>>> Stashed changes
                 data: savePatient
             })
         } catch (error) {
@@ -362,11 +352,7 @@ class TherapistController {
 
             return response.status(202).json({
                 status: 'Success',
-<<<<<<< Updated upstream
-                message: 'Successfully Updated',
-=======
                 message: 'Successfully Updated patient profile',
->>>>>>> Stashed changes
                 data: updatePatient
             })
         } catch (error) {
@@ -405,10 +391,42 @@ class TherapistController {
 
             return response.status(202).json({
                 status: 'Success',
-                message: 'Successfully Deleted Patient',
+                message: 'Successfully Deleted patient',
                 data: deletePatient
             })
             
+        } catch (error) {
+            console.log(error)
+            return response.status(500).json({
+                status: 'Failed',
+                message: 'Failed Internal server error',
+                error: error
+            })
+        }  
+    }
+    async removeSpecialization({response, params,auth}){
+        const {therapist_specialization_id} = params
+        try {
+            const authUser = auth.current.user
+            const therapist_specialization = await TherapistSpecialization.query()
+                                .where("id", therapist_specialization_id)
+                                .andWhere('therapist_email', authUser.email)
+                                .first()
+
+            if (!therapist_specialization) {
+                return response.status(404).json({
+                    status: 'Failed',
+                    message: 'Specialization does not exist'
+                })
+            }
+
+            therapist_specialization.delete()
+
+            return response.status(200).json({
+                status: 'Success',
+                message: 'Successfully Deleted Specialization'
+            })
+
         } catch (error) {
             console.log(error)
             return response.status(500).json({

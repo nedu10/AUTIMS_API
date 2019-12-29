@@ -1,8 +1,9 @@
 'use strict'
+const Caregiver = use('App/Models/Caregiver')
+const User = use('App/Models/User')
 
 class CaregiverController {
-<<<<<<< Updated upstream
-=======
+
     async activateCaregiver ({ response, params, request}) {
         const {confirmation_key} = params
         const {password} = request.post()
@@ -43,7 +44,6 @@ class CaregiverController {
             })
         }
     }
->>>>>>> Stashed changes
 }
 
 module.exports = CaregiverController

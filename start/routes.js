@@ -23,6 +23,8 @@ Route.get('/', () => {
 //Login
 Route.post('/api/login', 'TherapistController.login').validator('TherapistLogin').middleware(['guest'])
 Route.get('/api/view_patient/:patient_id', 'TherapistController.viewPatient').middleware(['auth'])
+Route.post('api/register/activate/:confirmation_key', 'CaregiverController.activateCaregiver')
+
 
 //Therapist
 Route.group(() => {
@@ -31,6 +33,7 @@ Route.group(() => {
   Route.get('/view_patients', 'TherapistController.viewTherapistPatient').middleware(['auth', 'isTherapist'])
   Route.put('/edit_patient/:patient_id', 'TherapistController.updatePatient').middleware(['auth', 'isTherapist'])
   Route.delete('/delete_patient/:patient_id', 'TherapistController.deletePatient').middleware(['auth', 'isTherapist'])
+  Route.delete('/remove_specialization/:therapist_specialization_id', 'TherapistController.removeSpecialization').middleware(['auth', 'isTherapist'])
   Route.get('/', 'TherapistController.therapistProfile').middleware(['auth', 'isTherapist'])
   Route.get('/:user_id', 'TherapistController.getSingleTherapist')
   Route.put('/:user_id', 'TherapistController.update').middleware(['auth', 'isTherapist'])
