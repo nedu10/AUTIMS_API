@@ -51,12 +51,12 @@ class TherapistController {
             }
 
             //send creation email to user to verify that he/she has created an account
-            await Mail.send('emails.registration_email', therapist.toJSON(), message => {
-                message
-                  .to(therapist.email)
-                  .from('autims@admin.com')
-                  .subject('Thank you for creating an account with autims')
-              })
+            // await Mail.send('emails.registration_email', therapist.toJSON(), message => {
+            //     message
+            //       .to(therapist.email)
+            //       .from('autims@admin.com')
+            //       .subject('Thank you for creating an account with autims')
+            //   })
 
 
             return response.status(201).json({
