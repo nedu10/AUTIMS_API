@@ -61,7 +61,7 @@ class MonthlyReportController {
 
             return response.status(200).json({
                 status: 'Success',
-                message: 'monthly report is successfully fetched',
+                message: 'Success',
                 data: parent_monthly_report
             })
         } catch (error) {
@@ -81,7 +81,7 @@ class MonthlyReportController {
 
             return response.status(200).json({
                 status: 'Success',
-                message: 'Monthly report is successfully fetched',
+                message: 'Success',
                 data: monthly_report
             })
         } catch (error) {

@@ -9,7 +9,7 @@ const Hash = use('Hash')
 class ParentController {
     async register({request, response}) {
 
-        const {name, email, phone_no, gender, password, child_name, child_age, address, child_gender} = request.post()
+        const {name, email, phone_no, gender, password, child_name, child_age, child_gender} = request.post()
 
 
         try {
@@ -33,14 +33,28 @@ class ParentController {
             parent.gender = gender
             parent.child_name = child_name,
             parent.child_age = child_age,
-            parent.address = address,
+            // parent.address = address,
             parent.child_gender = child_gender
             
             const saveParent = await parent.save()
 
+<<<<<<< Updated upstream
             return response.status(201).json({
                 status: 'Success',
                 message: 'Registration Successful',
+=======
+            //send creation email to user to verify that he/she has created an account
+            await Mail.send('emails.registration_email', parent.toJSON(), message => {
+                message
+                  .to(parent.email)
+                  .from('autims@admin.com')
+                  .subject('Thank you for creating a parent account with AutiMS')
+              })
+
+            return response.status(201).json({
+                status: 'Success',
+                message: 'Registration Successful. Kindly activate your account.',
+>>>>>>> Stashed changes
                 data: saveParent
             })
         } catch (error) {
@@ -64,7 +78,11 @@ class ParentController {
             }
             return response.status(200).json({
                 status: 'Success',
+<<<<<<< Updated upstream
                 message: 'Successfully fetched parent',
+=======
+                message: 'Successful',
+>>>>>>> Stashed changes
                 data: get_parent
             })
         } catch (error) {
@@ -82,7 +100,11 @@ class ParentController {
             const parent = await User.query().where("id", authUser.id).with('parent').first()
             return response.status(200).json({
                 status: 'Success',
+<<<<<<< Updated upstream
                 message: 'Successfully fetched profile',
+=======
+                message: 'Successful',
+>>>>>>> Stashed changes
                 data: parent
             })
         } catch (error) {
@@ -96,7 +118,7 @@ class ParentController {
     }
     async update({request, params, response}) {
         const {user_id} = params
-        const {name, phone_no, gender, child_name, child_age, address, child_gender} = request.post()
+        const {name, phone_no, gender, child_name, child_age, child_gender} = request.post()
 
         try {
             const user = await User.query().where("id", user_id).andWhere('user_type', "parent").first()
@@ -123,7 +145,7 @@ class ParentController {
             parent.name = (name) ? name : parent.name
             parent.phone_no = (phone_no) ? phone_no : parent.phone_no
             parent.gender = (gender) ? gender : parent.gender
-            parent.address = (address) ? address : parent.address
+            // parent.address = (address) ? address : parent.address
             parent.child_name = (child_name) ? child_name : parent.child_name
             parent.child_age = (child_age) ? child_age : parent.child_age
             parent.child_gender = (child_gender) ? child_gender : parent.child_gender
@@ -133,7 +155,7 @@ class ParentController {
 
             return response.status(202).json({
                 status: 'Success',
-                message: 'Successfully Updated parent',
+                message: 'Successfully Updated profile',
                 data: updateParent
             })
         } catch (error) {
@@ -149,8 +171,20 @@ class ParentController {
 
         const {name, email, phone_no, relationship} = request.post()
 
+<<<<<<< Updated upstream
         const confirmation_token = 'qwertyuiop'
         const password = 'AUTIMCAREGIVER'
+=======
+        
+        const generate_random_string = randomstring.generate({
+            length: 40,
+            charset: 'alphabetic'
+          });
+
+
+        const confirmation_token = generate_random_string
+        const password = 'AUTIMSCAREGIVER'
+>>>>>>> Stashed changes
 
         try {
             const authUser = auth.current.user
@@ -186,7 +220,7 @@ class ParentController {
 
             return response.status(201).json({
                 status: 'Success',
-                message: 'Caregiver is successfully created',
+                message: 'Successfully added new caregiver',
                 data: saveCaregiver
             })
         } catch (error) {
@@ -206,7 +240,11 @@ class ParentController {
 
             return response.status(200).json({
                 status: 'Success',
+<<<<<<< Updated upstream
                 message: 'Successfully fetched patients',
+=======
+                message: 'Successful',
+>>>>>>> Stashed changes
                 data: patients
             })
         } catch (error) {

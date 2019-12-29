@@ -49,9 +49,24 @@ class TherapistController {
                 
             }
 
+<<<<<<< Updated upstream
             return response.status(201).json({
                 status: 'Success',
                 message: 'Successfully registered',
+=======
+            //send creation email to user to verify that he/she has created an account
+            await Mail.send('emails.registration_email', therapist.toJSON(), message => {
+                message
+                  .to(therapist.email)
+                  .from('autims@admin.com')
+                  .subject('Thank you for creating a therapist account with AutiMS')
+              })
+
+
+            return response.status(201).json({
+                status: 'Success',
+                message: 'Registration Successful. Kindly activate your account.',
+>>>>>>> Stashed changes
                 data: saveTherapist
             })
         } catch (error) {
@@ -75,7 +90,7 @@ class TherapistController {
             }
             return response.status(200).json({
                 status: 'Success',
-                message: 'Successfully fetch therapist',
+                message: 'Successful',
                 data: get_therapist
             })
         } catch (error) {
@@ -134,7 +149,7 @@ class TherapistController {
             const therapist = await User.query().where("id", authUser.id).with('therapist').first()
             return response.status(200).json({
                 status: 'Success',
-                message: 'Successfully fetch profile',
+                message: 'Successful',
                 data: therapist
             })
         } catch (error) {
@@ -175,7 +190,11 @@ class TherapistController {
 
             return response.status(202).json({
                 status: 'Success',
+<<<<<<< Updated upstream
                 message: 'Successfully Updated profile',
+=======
+                message: 'Successfully Updated ',
+>>>>>>> Stashed changes
                 data: updateTherapist
             })
         } catch (error) {
@@ -224,7 +243,11 @@ class TherapistController {
 
             return response.status(201).json({
                 status: 'Success',
+<<<<<<< Updated upstream
                 message: 'Successfully created patient',
+=======
+                message: 'Successfully added new patient',
+>>>>>>> Stashed changes
                 data: savePatient
             })
         } catch (error) {
@@ -254,7 +277,7 @@ class TherapistController {
                                 
             return response.status(200).json({
                 status: 'Success',
-                message: 'successfully fetch patient',
+                message: 'Successful',
                 data: patient
             })
         } catch (error) {
@@ -276,7 +299,7 @@ class TherapistController {
 
             return response.status(200).json({
                 status: 'Success',
-                message: 'successfully fetch patients',
+                message: 'Successful',
                 data: patients
             })
         } catch (error) {
@@ -339,7 +362,11 @@ class TherapistController {
 
             return response.status(202).json({
                 status: 'Success',
+<<<<<<< Updated upstream
                 message: 'Successfully Updated',
+=======
+                message: 'Successfully Updated patient profile',
+>>>>>>> Stashed changes
                 data: updatePatient
             })
         } catch (error) {

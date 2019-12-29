@@ -55,7 +55,11 @@ module.exports = {
       port: Env.get('DB_PORT', ''),
       user: Env.get('DB_USER', 'root'),
       password: Env.get('DB_PASSWORD', ''),
+<<<<<<< Updated upstream
       database: Env.get('DB_DATABASE', 'autims')
+=======
+      database: Env.get('DB_DATABASE', 'autimsapp')
+>>>>>>> Stashed changes
     },
     debug: Env.get('DB_DEBUG', false)
   },

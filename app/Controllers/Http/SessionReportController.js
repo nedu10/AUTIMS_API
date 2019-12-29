@@ -49,7 +49,7 @@ class SessionReportController {
 
             return response.status(200).json({
                 status: 'Success',
-                message: 'session report is successfully fetched',
+                message: 'Successful',
                 data: parent_session_report
             })
         } catch (error) {
@@ -69,7 +69,7 @@ class SessionReportController {
 
             return response.status(200).json({
                 status: 'Success',
-                message: 'session report is successfully fetched',
+                message: 'Successful',
                 data: session_report
             })
         } catch (error) {

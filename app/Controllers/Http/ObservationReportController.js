@@ -61,7 +61,7 @@ class ObservationReportController {
 
             return response.status(200).json({
                 status: 'Success',
-                message: 'Observation report is successfully fetched',
+                message: 'Successful',
                 data: observation_report
             })
         } catch (error) {
@@ -81,7 +81,7 @@ class ObservationReportController {
 
             return response.status(200).json({
                 status: 'Success',
-                message: 'observation report is successfully fetched',
+                message: 'Successful',
                 data: parent_observation_report
             })
         } catch (error) {
@@ -168,7 +168,11 @@ class ObservationReportController {
 
             return response.status(200).json({
                 status: 'Success',
+<<<<<<< Updated upstream
                 message: 'Successfully deleted',
+=======
+                message: 'OSuccessfully deleted',
+>>>>>>> Stashed changes
                 data: observation_report
             })
         } catch (error) {
