@@ -15,7 +15,7 @@ var randomstring = require("randomstring");
 class ParentController {
     async register({request, response}) {
 
-        const {name, email, phone_no, gender, password, child_name, child_age, address, child_gender} = request.post()
+        const {name, email, phone_no, gender, password, child_name, child_age, child_gender} = request.post()
 
 
         try {
@@ -39,7 +39,6 @@ class ParentController {
             parent.gender = gender
             parent.child_name = child_name,
             parent.child_age = child_age,
-            parent.address = address,
             parent.child_gender = child_gender
             
             const saveParent = await parent.save()
@@ -110,7 +109,7 @@ class ParentController {
     }
     async update({request, params, response}) {
         const {user_id} = params
-        const {name, phone_no, gender, child_name, child_age, address, child_gender} = request.post()
+        const {name, phone_no, gender, child_name, child_age, child_gender} = request.post()
 
         try {
             const user = await User.query().where("id", user_id).andWhere('user_type', "parent").first()
@@ -137,7 +136,6 @@ class ParentController {
             parent.name = (name) ? name : parent.name
             parent.phone_no = (phone_no) ? phone_no : parent.phone_no
             parent.gender = (gender) ? gender : parent.gender
-            parent.address = (address) ? address : parent.address
             parent.child_name = (child_name) ? child_name : parent.child_name
             parent.child_age = (child_age) ? child_age : parent.child_age
             parent.child_gender = (child_gender) ? child_gender : parent.child_gender
