@@ -231,7 +231,7 @@ class ParentController {
         const {parent_email} = params
         try {
 
-            const patients = await Patient.query().where("parent_email", parent_email).andWhere('is_deleted', false).with('therapist').with('parent').fetch()
+            const patients = await Patient.query().where("parent_email", parent_email).with('therapist').with('parent').fetch()
 
             return response.status(200).json({
                 status: 'Success',
