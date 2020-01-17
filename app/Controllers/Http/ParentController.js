@@ -109,7 +109,7 @@ class ParentController {
     }
     async update({request, params, response}) {
         const {user_id} = params
-        const {name, phone_no, gender, child_name, child_age, child_gender} = request.post()
+        const {name, phone_no, gender, child_name, child_age, child_gender, img_url} = request.post()
 
         try {
             const user = await User.query().where("id", user_id).andWhere('user_type', "parent").first()
@@ -139,6 +139,7 @@ class ParentController {
             parent.child_name = (child_name) ? child_name : parent.child_name
             parent.child_age = (child_age) ? child_age : parent.child_age
             parent.child_gender = (child_gender) ? child_gender : parent.child_gender
+            parent.img_url = (img_url) ? img_url : parent.img_url
 
             
             const updateParent = await parent.save()

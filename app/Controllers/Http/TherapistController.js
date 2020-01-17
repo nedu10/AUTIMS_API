@@ -1,7 +1,7 @@
 "use strict";
 
-const Therapist = use("App/Models/Therapist");
 const User = use("App/Models/User");
+const Therapist = use("App/Models/Therapist");
 const Patient = use("App/Models/Patient");
 const TherapistSpecialization = use("App/Models/TherapistSpecialization");
 const Hash = use("Hash");
@@ -202,12 +202,20 @@ class TherapistController {
   }
   async update({ request, params, response }) {
     const { user_id } = params;
-    const { name, phone_no, workplace, address, gender } = request.post();
+    const { name, phone_no, workplace, address, gender, img_url } = request.post();
 
     try {
       const user = await User.query()
         .where("id", user_id)
+        .andWhere('user_type', "therapist")
         .first();
+        
+        if (!user) {
+          return response.status(404).json({
+              status: 'Failed',
+              message: 'User not found'
+          })
+      }
       const therapist = await Therapist.query()
         .where("email", user.email)
         .first();
@@ -227,12 +235,13 @@ class TherapistController {
       therapist.workplace = workplace ? workplace : therapist.workplace;
       therapist.gender = gender ? gender : therapist.gender;
       therapist.address = address ? address : therapist.address;
+      therapist.img_url = img_url ? img_url : therapist.img_url;
 
       const updateTherapist = await therapist.save();
 
       return response.status(202).json({
         status: "Success",
-        message: "Successfully Updated user",
+        message: "Successfully Updated Therapist",
         data: updateTherapist
       });
     } catch (error) {
