@@ -322,7 +322,7 @@ class TherapistController {
     try {
       const patient = await Patient.query()
         .where("id", patient_id)
-        .andWhere("is_deleted", false)
+        // .andWhere("is_deleted", false)
         .with("therapist")
         .with("parent")
         .with("monthly_reports")
