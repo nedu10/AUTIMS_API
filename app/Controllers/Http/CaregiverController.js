@@ -14,7 +14,7 @@ class CaregiverController {
             if (!get_caregiver) {
                 throw response.status(500).json({
                     status: 'Failed',
-                    message: 'Caregiver is already activated'
+                    message: 'Caregiver is already activated. Go to log in'
                 })
             }
 
@@ -31,7 +31,7 @@ class CaregiverController {
             const save_edited_caregiver = await get_caregiver.save()
             return response.status(202).json({
                 status: 'Success',
-                message: 'Caregiver is successfully activeted',
+                message: 'Caregiver is successfully activated. You can now log in',
                 data: save_edited_caregiver
             })
         } catch (error) {
@@ -100,6 +100,28 @@ class CaregiverController {
             })
         }   
     }
+    async viewCaregiverDashboard({ response, auth }) {
+        try {
+          const authUser = auth.current.user;
+          const caregiver = await Caregiver.query()
+            .where("email", authUser.email)
+            .with("observation_reports")
+            .first();
+    
+          return response.status(200).json({
+            status: "Success",
+            message: "Successfully fetched",
+            data: caregiver
+          });
+        } catch (error) {
+          console.log(error);
+          return response.status(500).json({
+            status: "Failed",
+            message: "Failed Internal server error",
+            error: error
+          });
+        }
+      }
 }
 
 module.exports = CaregiverController

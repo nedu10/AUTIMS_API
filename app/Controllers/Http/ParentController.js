@@ -274,6 +274,29 @@ class ParentController {
           });
         }
     }
+    async viewParentDashboard({ response, auth }) {
+        try {
+          const authUser = auth.current.user;
+          const parent = await Parent.query()
+            .where("email", authUser.email)
+            .with("observation_reports")
+            .with("caregivers")
+            .first();
+    
+          return response.status(200).json({
+            status: "Success",
+            message: "Successfully fetch profile",
+            data: parent
+          });
+        } catch (error) {
+          console.log(error);
+          return response.status(500).json({
+            status: "Failed",
+            message: "Failed Internal server error",
+            error: error
+          });
+        }
+      }
 }
 
 module.exports = ParentController

@@ -82,6 +82,10 @@ Route.group(() => {
       "/caregivers",
       "ParentController.viewAllCaregivers"
   ).middleware(["auth", "isParent"]);
+  Route.get(
+    "/dashboard",
+    "ParentController.viewParentDashboard"
+  ).middleware(["auth", "isParent"]);
     // end of what I added
 
   Route.get(
@@ -99,12 +103,16 @@ Route.group(() => {
   ]);
 }).prefix("/api/parent");
 
-//Added Caregiver routes to fetch and update profile
+//Added Caregiver routes to fetch and update profile, also caregiver observation reports
 Route.group(() => {
   Route.get("/", "CaregiverController.caregiverProfile").middleware([
     "auth",
     "isCaregiver"
   ]);
+  Route.get(
+    "/dashboard",
+    "CaregiverController.viewCaregiverDashboard"
+  ).middleware(["auth", "isCaregiver"]);
   Route.put("/:user_id", "CaregiverController.update").middleware([
     "auth",
     "isCaregiver"
