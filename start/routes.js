@@ -21,10 +21,21 @@ Route.get("/", () => {
 });
 
 //Login
-Route.post('/api/login', 'TherapistController.login').validator('TherapistLogin').middleware(["guest"]);
-Route.get('/api/view_patient/:patient_id', 'TherapistController.viewPatient').middleware(['auth'])
-Route.post('api/register/activate/:confirmation_key', 'CaregiverController.activateCaregiver')
-
+Route.post("/api/login", "TherapistController.login")
+  .validator("TherapistLogin")
+  .middleware(["guest"]);
+Route.get(
+  "/api/view_patient/:patient_id",
+  "TherapistController.viewPatient"
+).middleware(["auth"]);
+Route.post(
+  "api/register/activate/:confirmation_key",
+  "CaregiverController.activateCaregiver"
+);
+Route.post(
+  "api/register/verify/:parent_email",
+  "ParentController.verifyPatient"
+);
 
 //Therapist
 Route.group(() => {
@@ -77,12 +88,12 @@ Route.group(() => {
     .validator("CaregiverRegistration")
     .middleware(["auth", "isParent"]);
 
-    // Added to fetch all caregivers added by parent.
-  Route.get(
-      "/caregivers",
-      "ParentController.viewAllCaregivers"
-  ).middleware(["auth", "isParent"]);
-    // end of what I added
+  // Added to fetch all caregivers added by parent.
+  Route.get("/caregivers", "ParentController.viewAllCaregivers").middleware([
+    "auth",
+    "isParent"
+  ]);
+  // end of what I added
 
   Route.get(
     "/view_patients/:parent_email",

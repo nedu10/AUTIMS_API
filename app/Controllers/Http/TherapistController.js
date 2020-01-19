@@ -56,14 +56,18 @@ class TherapistController {
           await therapist_specialization.save();
         }
       }
-      
+
       //send creation email to user to verify that he/she has created an account
-      await Mail.send('emails.registration_email', therapist.toJSON(), message => {
+      await Mail.send(
+        "emails.registration_email",
+        therapist.toJSON(),
+        message => {
           message
             .to(therapist.email)
-            .from('autims@admin.com')
-            .subject('Thank you for creating an account with autims')
-        })
+            .from("autims@admin.com")
+            .subject("Thank you for creating an account with autims");
+        }
+      );
 
       return response.status(201).json({
         status: "Success",
@@ -202,19 +206,26 @@ class TherapistController {
   }
   async update({ request, params, response }) {
     const { user_id } = params;
-    const { name, phone_no, workplace, address, gender, img_url } = request.post();
+    const {
+      name,
+      phone_no,
+      workplace,
+      address,
+      gender,
+      img_url
+    } = request.post();
 
     try {
       const user = await User.query()
         .where("id", user_id)
-        .andWhere('user_type', "therapist")
+        .andWhere("user_type", "therapist")
         .first();
-        
-        if (!user) {
-          return response.status(404).json({
-              status: 'Failed',
-              message: 'User not found'
-          })
+
+      if (!user) {
+        return response.status(404).json({
+          status: "Failed",
+          message: "User not found"
+        });
       }
       const therapist = await Therapist.query()
         .where("email", user.email)
@@ -302,6 +313,17 @@ class TherapistController {
       patient.creation_time = creation_time;
 
       const savePatient = await patient.save();
+
+      await Mail.send(
+        "emails.parent_accept_patient",
+        patient.toJSON(),
+        message => {
+          message
+            .to(patient.parent_email)
+            .from("autims@admin.com")
+            .subject("Please verify this patient.");
+        }
+      );
 
       return response.status(201).json({
         status: "Success",
