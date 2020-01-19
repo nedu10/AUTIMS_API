@@ -16,12 +16,14 @@ class ObservationReportController {
 
             const parentData = creator.toJSON().parent
             const caregiverData = creator.toJSON().caregiver
-
             const observation_report = new ObservationReport()
 
             if (parentData) {
                 observation_report.patient_id = patient_id
                 observation_report.creator_id = parentData.id
+                // added
+                observation_report.creator_type = creator.toJSON().user_type
+                // end
                 observation_report.date = date
                 observation_report.title = title
                 observation_report.summary = summary
@@ -31,6 +33,9 @@ class ObservationReportController {
             if (caregiverData) {
                 observation_report.patient_id = patient_id
                 observation_report.creator_id = caregiverData.id
+                // added
+                observation_report.creator_type = creator.toJSON().user_type
+                //end
                 observation_report.date = date
                 observation_report.title = title
                 observation_report.summary = summary

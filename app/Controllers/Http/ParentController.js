@@ -146,7 +146,7 @@ class ParentController {
 
             return response.status(202).json({
                 status: 'Success',
-                message: 'Successfully Updated parent',
+                message: 'Successfully Updated Profile',
                 data: updateParent
             })
         } catch (error) {
@@ -194,6 +194,10 @@ class ParentController {
             const caregiver = new Caregiver()
             caregiver.name = name
             caregiver.parent_id = parentData.id
+            // added these
+            caregiver.parent_email = parentData.email
+            caregiver.parent_name = parentData.name
+            // end addition
             caregiver.email = email
             caregiver.phone_no = phone_no
             caregiver.relationship = relationship
@@ -204,8 +208,7 @@ class ParentController {
             
             const saveCaregiver = await caregiver.save()
 
-
-            ///caregiver set password
+            //caregiver set password
             await Mail.send('emails.caregiver_set_password', caregiver.toJSON(), message => {
                 message
                   .to(caregiver.email)
@@ -232,6 +235,7 @@ class ParentController {
         try {
 
             const patients = await Patient.query().where("parent_email", parent_email).with('therapist').with('parent').fetch()
+            // const patients = await Patient.query().where("parent_email", parent_email).andWhere("parent_verified", 1).with('therapist').with('parent').fetch()
 
             return response.status(200).json({
                 status: 'Success',
@@ -246,6 +250,29 @@ class ParentController {
                 error: error
             })
         }   
+    }
+    // Added to fetch all caregivers
+    async viewAllCaregivers({ response, auth }) {
+        try {
+          const authUser = auth.current.user;
+          const parent = await Parent.query()
+            .where("email", authUser.email)
+            .with("caregivers")
+            .first();
+    
+          return response.status(200).json({
+            status: "Success",
+            message: "Successfully fetched all caregivers",
+            data: parent
+          });
+        } catch (error) {
+          console.log(error);
+          return response.status(500).json({
+            status: "Failed",
+            message: "Failed Internal server error",
+            error: error
+          });
+        }
     }
 }
 

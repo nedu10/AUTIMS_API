@@ -43,6 +43,63 @@ class CaregiverController {
             })
         }
     }
+    // Added to fetch caregiver profile
+    async caregiverProfile({response, auth}) {
+        try {
+            const authUser = auth.current.user
+            const caregiver = await User.query().where("id", authUser.id).with('caregiver').first()
+            return response.status(200).json({
+                status: 'Success',
+                message: 'Successfully fetch profile',
+                data: caregiver
+            })
+        } catch (error) {
+            console.log(error)
+            return response.status(500).json({
+                status: 'Failed',
+                message: 'Failed Internal server error',
+                error: error
+            }) 
+        }
+    }
+    // Added to edit caregiver profile
+    async update({request, params, response}) {
+        const {user_id} = params
+        const {name, phone_no, relationship, img_url} = request.post()
+
+        try {
+            const user = await User.query().where("id", user_id).andWhere('user_type', "caregiver").first()
+            // console.log('here >> ', user)
+            if (!user) {
+                return response.status(404).json({
+                    status: 'Failed',
+                    message: 'User not found'
+                })
+            }
+            const caregiver = await Caregiver.query().where("email", user.email).first()
+           
+            caregiver.name = (name) ? name : caregiver.name
+            caregiver.phone_no = (phone_no) ? phone_no : caregiver.phone_no
+            caregiver.relationship = (relationship) ? relationship : caregiver.relationship
+            caregiver.img_url = (img_url) ? img_url : caregiver.img_url
+
+            
+            const updateCaregiver = await caregiver.save()
+
+            return response.status(202).json({
+                status: 'Success',
+                message: 'Successfully Updated Profile',
+                data: updateCaregiver
+            })
+        } catch (error) {
+            console.log(error)
+            return response.status(500).json({
+                status: 'Failed',
+                message: 'Failed Internal server error',
+                error: error
+            })
+        }   
+    }
 }
 
 module.exports = CaregiverController

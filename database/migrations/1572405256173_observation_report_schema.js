@@ -9,6 +9,7 @@ class ObservationReportSchema extends Schema {
       table.increments()
       table.integer('patient_id').notNullable().unsigned().references('id').inTable('patients')
       table.integer('creator_id').notNullable()
+      table.string('creator_type').notNullable()
       table.string('date', 255).defaultTo(Date.now())
       table.string('title').notNullable()
       table.string('summary').notNullable()

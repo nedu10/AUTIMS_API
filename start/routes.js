@@ -76,6 +76,14 @@ Route.group(() => {
   Route.post("/add_caregiver", "ParentController.addCaregiver")
     .validator("CaregiverRegistration")
     .middleware(["auth", "isParent"]);
+
+    // Added to fetch all caregivers added by parent.
+  Route.get(
+      "/caregivers",
+      "ParentController.viewAllCaregivers"
+  ).middleware(["auth", "isParent"]);
+    // end of what I added
+
   Route.get(
     "/view_patients/:parent_email",
     "ParentController.viewParentAndCaregiverPatient"
@@ -90,6 +98,19 @@ Route.group(() => {
     "isParent"
   ]);
 }).prefix("/api/parent");
+
+//Added Caregiver routes to fetch and update profile
+Route.group(() => {
+  Route.get("/", "CaregiverController.caregiverProfile").middleware([
+    "auth",
+    "isCaregiver"
+  ]);
+  Route.put("/:user_id", "CaregiverController.update").middleware([
+    "auth",
+    "isCaregiver"
+  ]);
+}).prefix("/api/caregiver");
+// End of addition
 
 //Session report
 Route.group(() => {
@@ -172,7 +193,7 @@ Route.group(() => {
   ).middleware(["auth", "isTherapist"]);
 }).prefix("/api/activity_list");
 
-//Monthly report
+//Observation report
 Route.group(() => {
   Route.post("/:patient_id", "ObservationReportController.create").middleware([
     "auth",

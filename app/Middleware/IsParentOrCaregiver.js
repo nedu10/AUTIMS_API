@@ -19,16 +19,16 @@ class IsParentOrCaregiver {
     try {
       const checkAuthUserType = await User.query().where('id', authUser.id).with('parent').with('caregiver').first()
       if ((checkAuthUserType.user_type == 'parent') || (checkAuthUserType.user_type == 'caregiver') ) {
-        if(checkAuthUserType.user_type == 'caregiver' ){
-          if (checkAuthUserType.caregiver.confirmation_token = null) {
-            return await next()
-          } else {
-            return response.status(401).json({
-              status: 'Failed',
-              message: 'UnAuthorized access'
-            })
-          }
-        }
+        // if(checkAuthUserType.user_type == 'caregiver' ){
+        //   if (checkAuthUserType.caregiver.confirmation_token = null) {
+        //     return await next()
+        //   } else {
+        //     return response.status(401).json({
+        //       status: 'Failed',
+        //       message: 'UnAuthorized access'
+        //     })
+        //   }
+        // }
         return await next()
       } else {
         return response.status(401).json({
