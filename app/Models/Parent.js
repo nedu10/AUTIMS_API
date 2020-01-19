@@ -19,7 +19,7 @@ class Parent extends Model {
         return this.hasMany('App/Models/PatientTherapist', 'id', 'parent_id')
       }
       observation_reports () {
-        return this.hasMany('App/Models/ObservationReport', 'email', 'creator_email')
+        return this.hasMany('App/Models/ObservationReport', 'id', 'creator_id')
       }
 }
 

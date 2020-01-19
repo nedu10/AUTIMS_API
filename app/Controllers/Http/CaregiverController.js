@@ -19,7 +19,12 @@ class CaregiverController {
         });
       }
 
-      // console.log('caregiver >> ', get_caregiver)
+      if (!get_caregiver) {
+        throw response.status(500).json({
+          status: "Failed",
+          message: "Caregiver is already activated. Go to log in"
+        });
+      }
 
       const get_user = await User.query()
         .where("email", get_caregiver.email)
@@ -31,10 +36,12 @@ class CaregiverController {
 
       const save_user_data = await get_user.save();
 
+      const save_user_data = await get_user.save();
+
       const save_edited_caregiver = await get_caregiver.save();
       return response.status(202).json({
         status: "Success",
-        message: "Caregiver is successfully activeted",
+        message: "Caregiver is successfully activated. You can now log in",
         data: save_edited_caregiver
       });
     } catch (error) {
@@ -102,6 +109,28 @@ class CaregiverController {
         status: "Success",
         message: "Successfully Updated Profile",
         data: updateCaregiver
+      });
+    } catch (error) {
+      console.log(error);
+      return response.status(500).json({
+        status: "Failed",
+        message: "Failed Internal server error",
+        error: error
+      });
+    }
+  }
+  async viewCaregiverDashboard({ response, auth }) {
+    try {
+      const authUser = auth.current.user;
+      const caregiver = await Caregiver.query()
+        .where("email", authUser.email)
+        .with("observation_reports")
+        .first();
+
+      return response.status(200).json({
+        status: "Success",
+        message: "Successfully fetched",
+        data: caregiver
       });
     } catch (error) {
       console.log(error);
