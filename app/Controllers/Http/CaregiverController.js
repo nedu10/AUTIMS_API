@@ -36,8 +36,6 @@ class CaregiverController {
 
       const save_user_data = await get_user.save();
 
-      const save_user_data = await get_user.save();
-
       const save_edited_caregiver = await get_caregiver.save();
       return response.status(202).json({
         status: "Success",

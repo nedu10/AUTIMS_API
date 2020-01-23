@@ -293,7 +293,7 @@ class ParentController {
       if (!get_patient) {
         return response.status(404).json({
           status: "Failed",
-          message: "Caregiver is already verified or does not exist"
+          message: "You've already verified your relationship"
         });
       }
 
@@ -303,7 +303,7 @@ class ParentController {
 
       return response.status(202).json({
         status: "Success",
-        message: "Patient is successfully verified",
+        message: "Your relationship to patient has been successfully verified",
         data: save_edited_patient
       });
     } catch (error) {
